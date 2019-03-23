@@ -4,7 +4,7 @@ import qs from 'qs';
 
 import { beginAjaxCall, ajaxCallError } from '../actions/ajaxStatusActions'
 
-axios.defaults.baseURL = 'http://35.196.217.205:3000';
+axios.defaults.baseURL = 'http://3.208.95.192:3000';
 
 export function loadTicketsSuccess(tickets) {
  return {
