@@ -1,7 +1,7 @@
 {
-  "name": "nld_dashboard",
+  "name": "hackpsu_fall2019_dashboard",
   "version": "1.0.0",
-  "description": "NLD Dashboard",
+  "description": "hackpsu_fall2019_dashboard",
   "scripts": {
     "prestart": "babel-node tools/startMessage.js",
     "start": "npm-run-all --parallel open:src lint:watch",
@@ -21,7 +21,8 @@
     "axios": "^0.17.1",
     "babel-eslint": "^8.2.2",
     "babel-polyfill": "6.8.0",
-    "bootstrap": "3.3.6",
+    "bootstrap": "^3.4.1",
+    "firebase": "^7.2.3",
     "fs": "0.0.1-security",
     "google-map-react": "^1.0.9",
     "google-maps-react": "^2.0.2",
@@ -36,6 +37,7 @@
     "qs": "^6.5.1",
     "react": "^15.3.0",
     "react-autosuggest": "^9.3.4",
+    "react-bootstrap": "^1.0.0-beta.14",
     "react-dom": "15.3.0",
     "react-google-maps": "^9.4.5",
     "react-pure-render": "^1.0.2",

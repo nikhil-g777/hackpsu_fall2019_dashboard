@@ -20,6 +20,7 @@ class Header extends React.Component {
                             <div className="col-sm-10">
                                 <ul className="nav nav-tabs">
                                     <li><Link to="/tickets" activeClassName="active">People List</Link></li>
+                                    <li><Link to="/incidents" activeClassName="active">Incidents</Link></li>
                                     <li>{this.props.loading && <LoadingDots interval={200} dots={20} />}</li>
                                 </ul>
                             </div>

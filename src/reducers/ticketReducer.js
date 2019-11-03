@@ -4,14 +4,10 @@ import initialState from './initialState';
 export default function ticketReducer(state = initialState.tickets, action) {
  switch (action.type) {
   case types.LOAD_TICKETS_SUCCESS:
-    console.log(action);
    return action.tickets;
 
    case types.LOAD_PICKUPS_SUCCESS:
-   console.log(action);
-   console.log('!!!!!!')
-   console.log(action.pickups);
-  return action.pickups;
+    return action.pickups;
 
 
   case types.CREATE_TICKET_SUCCESS:

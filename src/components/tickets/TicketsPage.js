@@ -7,32 +7,26 @@ import ReactTable from 'react-table';
 import "react-table/react-table.css";
 import * as ticketActions from '../../actions/ticketActions';
 import TicketList from './TicketList';
+import Counts from './Counts';
 import GMap from '../maps/GoogleMap';
 
 var apiKey = 'AIzaSyBO-pYdGQggM2aTBx92adMwqECtv5SACW4';
 
 
+
+import configureStore from '../../store/configureStore.dev';
+
+const store = configureStore();
+
 var getCounts = function(list){
   var counts = {
-    Safe: 0,
-    Help: 0,
-    Emergency: 0
+    'safe': 0,
+    'help': 0,
+    'emergency': 0
   }
   if(list && list.length >= 0){
     list.forEach(element => {
-      switch (element.status) {
-        case 0:
-          counts.Safe++;
-          break;
-        case 2:
-          counts.Help++;
-          break;
-        case 6:
-          counts.Emergency++;
-          break;
-        default:
-          break;
-      }
+        counts[element.status]++;
     });
     return counts;  
   } else {
@@ -45,12 +39,28 @@ class TicketsPage extends React.Component{
     
       constructor(props, context) {
         super(props, context);
+        this.state={checked: false};
         this.redirectToCreateTicketPage = this.redirectToCreateTicketPage.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.updateCamps = this.updateCamps.bind(this);
       }
 
       componentWillMount() {
         this.props.actions.loadTickets();
         this.props.actions.loadPickups();
+      }
+
+      handleChange (e){
+        this.setState({ checked: !this.state.checked });
+      }
+
+      updateCamps (event){
+        var camps = event.target.value;
+        if(camps != ''){
+          this.setState({ camps: camps });
+          store.dispatch(ticketActions.loadTickets(camps));
+          this.props.actions.loadTickets(camps);
+        }
       }
 
       redirectToCreateTicketPage(dsa){
@@ -74,15 +84,29 @@ class TicketsPage extends React.Component{
                    className="btn btn-primary"
                    onClick={this.redirectToCreateTicketPage}
             /> */}
+            
+            <div className="custom-control custom-checkbox">
+              <input type="checkbox" onChange={this.handleChange} checked={this.state.checked} />
+              <label className="custom-control-label" >Color by Status</label>
+            </div>
+            <div className="input-group mb-3">
+              <div className="input-group-prepend">
+                <span className="input-group-text" id="basic-addon1">Number of Relief Camps: </span>
+              </div>
+              <input value={this.state.camps} className="form-control" onChange={this.updateCamps} aria-describedby="basic-addon1"/>
+            </div>
+
             <GMap
-              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyBO-pYdGQggM2aTBx92adMwqECtv5SACW4&v=3.exp&libraries=geometry,drawing,places"
+              googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyAfhq9uX2bmNNbLXgQHnG8f5U8y__dwlCY&v=3.exp&libraries=geometry,drawing,places"
               loadingElement={<div style={{ height: `100%` }} />}
               containerElement={<div style={{ height: `400px` }} />}
               mapElement={<div style={{ height: `100%` }} />}
               markersList={tickets.users}
               pickupMarkersList = {tickets.pickups}
-              counts = {getCounts(tickets.users)}
+              camps = {tickets.camps}
+              mode = {this.state.checked}
             />
+            <Counts counts = {getCounts(tickets.users)} />
             <TicketList tickets={tickets.users} />
           </div>
         );
@@ -96,7 +120,6 @@ TicketsPage.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  console.log(state);
   return {
     tickets: state.tickets,
     pickups: state.pickups

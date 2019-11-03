@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './components/App';
 import TicketsPage from './components/tickets/TicketsPage';
+import Incidents from './components/tickets/Incidents';
 
 export default (
     // <Route path="/" component={App}>
@@ -18,5 +19,6 @@ export default (
     {/* <IndexRoute component={HomePage} /> */}
         <Route path="/" component={TicketsPage} />
         <Route path="tickets" component={TicketsPage} />
+        <Route path="incidents" component={Incidents} />
     </Route>
 );
